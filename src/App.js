@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {Routes, Route} from 'react-router-dom'
+import AddEmployee from './components/Employee/AddEmployee';
+import EmployeeDetail from './components/Employee/EmployeeDetail';
+import Employees from './components/Employee/Employees';
+import Header from './components/Header';
+import EmployeeContextProvider from "./context/Employee.context";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <EmployeeContextProvider>
+    <header>
+      <Header />
+    </header>
+    <main>
+      <Routes>
+        <Route path="/" element={<Employees />} exact />
+        <Route path="/add" element={<AddEmployee />} exact />
+        <Route path="/employees" element={<Employees />} exact />
+        <Route path="/employees/:id" element={<EmployeeDetail />} exact />
+      </Routes>
+    </main>
+      </EmployeeContextProvider>
+  </React.Fragment>
   );
 }
 
