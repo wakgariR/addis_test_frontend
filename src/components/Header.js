@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AppBar, Tab, Tabs, Toolbar, Typography } from '@mui/material'
-import { LibraryBooksOutlined } from '@mui/icons-material'
+import {  PersonOutlineRounded } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
 import { EmployeeContext } from '../context/Employee.context'
 const Header = () => {
@@ -12,11 +12,11 @@ const Header = () => {
             <AppBar sx={{backgroundColor:'#232F3D'}} position="sticky">
             <Toolbar>
                 <Typography>
-                    <LibraryBooksOutlined />
+                    <PersonOutlineRounded />
                 </Typography>
                 <Tabs textColor="inherit" indicatorColor="secondary"
                 value={value} onChange={(e, val) => setValue(val)}>
-                    <Tab LinkComponent={NavLink} to="/add" label="Add Employee" onClick={setIsOnUpdate(false)}></Tab>
+                    <Tab LinkComponent={NavLink} to="/add" label="Add Employee" onClick={() => setIsOnUpdate(false)}></Tab>
                     <Tab LinkComponent={NavLink} to="/employees" label="Employees"></Tab>
                 </Tabs>
             </Toolbar>

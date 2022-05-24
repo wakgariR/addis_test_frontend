@@ -19,7 +19,7 @@ const EmployeeContextProvider = (props) => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState({});
-const [isOnUpdate, setIsOnUpdate] = useState(false);
+  const [isOnUpdate, setIsOnUpdate] = useState(false);
   useEffect(() => {
     axios.get(`${baseUrl}/employees`).then((result) => {
         setEmployees(result.data.employees)
@@ -32,23 +32,37 @@ const [isOnUpdate, setIsOnUpdate] = useState(false);
     }).then((result) => {
      const  { _id,name, salary, dateOfBirth, gender } = result.data.employe;
      setEmployees([...employees, {_id, name, salary, dateOfBirth, gender }]);
+     navigate('/employees')
     });
   };
 
- const onUpdateEmployee= (id)=>{
+ const onUpdateEmployee= async (id)=>{
    setIsOnUpdate(true);
-   const emp =employees.filter((employee) => employee._id === id)
+   const emp =  employees.filter((employee) => employee._id === id)
    setSelectedEmployee(
      emp[0]
      )
-     console.log(selectedEmployee)
       navigate('/add')
   }
   const updateEmployee = (id,{ name, salary, dateOfBirth, gender }) => {
-    console.log(id,name);
-    //    call api for update
 
-    setEmployees()
+    axios.put(`${baseUrl}/employees/${id}`,{
+      name, gender, dateOfBirth,salary
+    }).then((result) => {
+      const  { _id,name, salary, dateOfBirth, gender } = result.data.employee;
+      const newEmployees = employees.map((employee) => {
+        if (_id === employee._id) {
+          employee.name= name
+          employee.gender = gender
+          employee.dateOfBirth =dateOfBirth
+          employee.salary =salary
+        }
+        return employee;
+      })
+      setEmployees(newEmployees);
+      navigate('/employees')
+    });
+
   };
 
   const deleteEmployee = (id) => {

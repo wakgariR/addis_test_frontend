@@ -35,7 +35,7 @@ const Employees = () => {
                 {row.name}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.dateOfBirth}
+                {row.dateOfBirth }
               </TableCell>
               <TableCell component="th" scope="row">
                 {row.gender}

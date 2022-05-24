@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import {Button, FormLabel, TextField,Select, MenuItem} from '@mui/material'
 import { Box } from '@mui/system'
 import { EmployeeContext } from '../../context/Employee.context';
-
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const AddEmployee = () => {
     const  employeeContext= useContext(EmployeeContext);
     const {addEmployee,isOnUpdate,selectedEmployee, updateEmployee} = employeeContext;
@@ -12,7 +14,8 @@ const AddEmployee = () => {
     const [salary,setSalary]  = useState('');
 
     const [dateOfBirth, setDateOfBirth] = useState('');
-
+    const [value, setValue] = React.useState(null); /////
+   
 useEffect(()=>{
    if(!isOnUpdate){
     setName('')
@@ -31,14 +34,13 @@ useEffect(()=>{
     const handleSubmit = (e) => {
         e.preventDefault();
         if(isOnUpdate){
-// update function
-       updateEmployee(
-        selectedEmployee._id,
+
+       updateEmployee(selectedEmployee._id,{
         name,
         gender,
         dateOfBirth,
         salary
-       )
+       })
             return
         }
         addEmployee({
@@ -62,7 +64,19 @@ useEffect(()=>{
             <FormLabel>Name</FormLabel>
             <TextField value={name} onChange={(e)=>setName(e.target.value)} margin="normal" fullWidth variant="outlined" name="name"/>
             <FormLabel>Date Of Birth</FormLabel>
-            <TextField type={"date"} value={dateOfBirth} onChange={(e)=>setDateOfBirth(e.target.value)}  margin="normal" fullWidth variant="outlined" name="dateOfBirth"/>
+            {/* <TextField type={"date"} value={dateOfBirth}  onChange={(e)=>setDateOfBirth(e.target.value)} 
+             margin="normal" fullWidth variant="outlined" name="dateOfBirth"/> */}
+             <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+                label="Date Of Birth"
+                value={dateOfBirth}
+                onChange={(newValue) => {
+                setDateOfBirth(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+            />
+</LocalizationProvider>
+            
             <FormLabel>Gender</FormLabel>
            
             <Select
